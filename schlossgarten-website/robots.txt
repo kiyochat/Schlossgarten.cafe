@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://schlossgarten-cafe-stadthagen.de/sitemap.xml
