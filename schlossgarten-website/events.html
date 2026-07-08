@@ -121,7 +121,6 @@ img{display:block;max-width:100%;}
   .nav-links.open{opacity:1;visibility:visible;pointer-events:auto;}
   .nav-links a{color:var(--ink) !important;font-size:20px;}
   .nav-toggle{display:block;}
-  body.menu-open{overflow:hidden;}
 }
 
 /* ---------- HERO ---------- */
@@ -456,18 +455,31 @@ document.addEventListener('DOMContentLoaded', function(){
 
   var toggle = document.querySelector('.nav-toggle');
   var links = document.querySelector('.nav-links');
+  var lockedScrollY = 0;
+  function openMenu(){
+    lockedScrollY = window.scrollY || window.pageYOffset;
+    document.body.style.position = 'fixed';
+    document.body.style.top = (-lockedScrollY) + 'px';
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+    links.classList.add('open');
+    toggle.classList.add('open');
+  }
+  function closeMenu(){
+    links.classList.remove('open');
+    toggle.classList.remove('open');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    window.scrollTo(0, lockedScrollY);
+  }
   if(toggle){
     toggle.addEventListener('click', function(){
-      links.classList.toggle('open');
-      toggle.classList.toggle('open');
-      document.body.classList.toggle('menu-open');
+      if(links.classList.contains('open')){ closeMenu(); } else { openMenu(); }
     });
     links.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){
-        links.classList.remove('open');
-        toggle.classList.remove('open');
-        document.body.classList.remove('menu-open');
-      });
+      a.addEventListener('click', function(){ closeMenu(); });
     });
   }
 
